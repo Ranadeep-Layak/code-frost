@@ -1,0 +1,702 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <title>Badge Code @ Frost</title>
+    <meta
+      name="description"
+      content="Social Media Badge Generator - Code @ Frost"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" href="fav.png" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="attendee.png" />
+    <link
+      crossorigin="anonymous"
+      href="https://fonts.googleapis.com/icon?family=Google+Sans:400&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <style>
+      :root {
+        /* Color Palette */
+        --primary-blue: #ff4ef3;
+        --primary-blue-hover: #ff4ef3;
+        --primary-dark-blue: #0d47a1;
+        --background-primary: #8de8ff;
+        --background-secondary: #e0e0e0;
+        --surface-white: #ffffff;
+        --text-primary: #212121;
+        --text-secondary: #4a4a4a;
+        --text-tertiary: #757575;
+        --border-light: #e0e0e0;
+        --border-medium: #cacaca;
+        --border-dark: #8e8e8e;
+        
+        /* Shadows */
+        --shadow-sm: 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+        --shadow-md: 0 2px 4px -1px rgba(0, 0, 0, 0.2),
+                     0 4px 5px 0 rgba(0, 0, 0, 0.14), 
+                     0 1px 10px 0 rgba(0, 0, 0, 0.12);
+        --shadow-lg: 0 3px 5px -1px rgba(0, 0, 0, 0.2),
+                     0 6px 10px 0 rgba(0, 0, 0, 0.14), 
+                     0 1px 18px 0 rgba(0, 0, 0, 0.12);
+        
+        /* Typography */
+        --font-family: "Google Sans", sans-serif;
+        --font-size-sm: 13px;
+        --font-size-base: 15px;
+        --font-size-lg: 24px;
+        
+        /* Spacing */
+        --spacing-xs: 4px;
+        --spacing-sm: 8px;
+        --spacing-md: 12px;
+        --spacing-lg: 24px;
+        --spacing-xl: 36px;
+        
+        /* Transitions */
+        --transition-fast: 100ms ease;
+        --transition-normal: 200ms ease;
+        --transition-slow: 300ms ease;
+        
+        /* Border Radius */
+        --radius-sm: 4px;
+        --radius-md: 5px;
+        --radius-full: 50%;
+      }
+
+      /* Keyframe Animations */
+      @keyframes slideInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes slideInLeft {
+        from {
+          opacity: 0;
+          transform: translateX(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes slideInRight {
+        from {
+          opacity: 0;
+          transform: translateX(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes scaleIn {
+        from {
+          opacity: 0;
+          transform: scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      @keyframes pulse {
+        0%, 100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.7;
+        }
+      }
+
+      @keyframes float {
+        0%, 100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-4px);
+        }
+      }
+
+      /* Respect user's motion preferences */
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+
+      * {
+        box-sizing: border-box;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      body {
+        background: var(--background-secondary);
+        margin: 0;
+        font-family: var(--font-family);
+        display: flex;
+        flex-direction: column;
+        color: var(--text-secondary);
+        min-height: 100vh;
+      }
+
+      header {
+        background-color: var(--surface-white);
+        height: 76px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: var(--font-size-lg);
+        font-weight: 500;
+        box-shadow: var(--shadow-md);
+        z-index: 1;
+        color: var(--text-primary);
+      }
+
+      .main-container {
+        display: flex;
+        flex: 1;
+      }
+
+      .input-panel {
+        padding: var(--spacing-lg);
+        width: 40%;
+        max-width: 420px;
+        background-color: var(--background-primary);
+        box-shadow: var(--shadow-sm);
+        overflow-y: auto;
+      }
+
+      .input {
+        margin-bottom: var(--spacing-xl);
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+      }
+
+      .input:last-child {
+        margin-bottom: 0;
+      }
+
+      .input label {
+        font-size: var(--font-size-sm);
+        margin-bottom: var(--spacing-sm);
+        font-weight: 600;
+        color: var(--text-primary);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .button {
+        color: var(--surface-white);
+        font-size: var(--font-size-base);
+        border-radius: 8px;
+        padding: 14px 20px;
+        box-shadow: 0 4px 12px rgba(41, 121, 255, 0.3);
+        background: linear-gradient(135deg, var(--primary-blue) 0%, #1e53e5 100%);
+        cursor: pointer;
+        border: none;
+        font-weight: 600;
+        transition: box-shadow var(--transition-fast), 
+                    background var(--transition-fast),
+                    transform var(--transition-fast);
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+        letter-spacing: 0.3px;
+      }
+
+      .button::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s ease, height 0.6s ease;
+      }
+
+      .button:active::before {
+        width: 300px;
+        height: 300px;
+      }
+
+      .button:hover {
+        box-shadow: 0 6px 16px rgba(41, 121, 255, 0.4);
+        background: linear-gradient(135deg, var(--primary-blue-hover) 0%, #1e4ad4 100%);
+        transform: translateY(-1px);
+      }
+
+      .button:active {
+        box-shadow: 0 2px 8px rgba(41, 121, 255, 0.3);
+        transform: translateY(0px);
+      }
+
+      .category-input {
+        width: 100%;
+        padding: var(--spacing-sm);
+        border: 2px solid var(--border-light);
+        border-radius: var(--radius-md);
+        background-color: var(--surface-white);
+        font-size: var(--font-size-base);
+        color: var(--text-primary);
+        font-family: var(--font-family);
+        transition: border-color var(--transition-normal),
+                    box-shadow var(--transition-normal),
+                    background-color var(--transition-normal);
+      }
+
+      .category-input:hover {
+        border-color: var(--border-medium);
+        transform: translateY(-1px);
+        transition: border-color var(--transition-normal),
+                    box-shadow var(--transition-normal),
+                    transform var(--transition-normal);
+      }
+
+      .category-input:focus {
+        outline: none;
+        border-color: var(--primary-blue);
+        box-shadow: 0 0 0 3px rgba(41, 121, 255, 0.15);
+        background-color: var(--surface-white);
+        animation: scaleIn 0.3s ease-out;
+      }
+
+      .select-container {
+        display: flex;
+        border-radius: var(--radius-sm);
+        border: 2px solid var(--border-light);
+        overflow: hidden;
+        width: 100%;
+        background-color: var(--surface-white);
+        transition: box-shadow var(--transition-normal);
+      }
+
+      .select-container:hover {
+        box-shadow: var(--shadow-sm);
+      }
+
+      .select-container .select {
+        flex: 1;
+        background-color: var(--surface-white);
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: var(--font-size-base);
+        cursor: pointer;
+        transition: background-color var(--transition-normal),
+                    color var(--transition-normal),
+                    transform var(--transition-normal);
+        border: none;
+        color: var(--text-primary);
+        font-weight: 500;
+      }
+
+      .select-container .select:not(:last-child) {
+        border-right: 2px solid var(--border-light);
+      }
+
+      .select-container .select:hover {
+        background-color: #f0f0f0;
+        transform: translateY(-2px);
+      }
+
+      .select-container .select[selected] {
+        color: var(--surface-white);
+        background-color: var(--primary-blue);
+        animation: slideInRight 0.3s ease-out;
+      }
+
+      .preview-panel {
+        padding: var(--spacing-xl) 0;
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+      }
+
+      canvas {
+        width: 500px;
+        max-width: 80%;
+        box-shadow: var(--shadow-lg);
+        border-radius: var(--radius-md);
+      }
+
+      .download-fab {
+        cursor: pointer;
+        position: absolute;
+        bottom: var(--spacing-lg);
+        right: var(--spacing-lg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--radius-full);
+        width: 64px;
+        height: 64px;
+        background: linear-gradient(135deg, var(--primary-blue) 0%, #1e53e5 100%);
+        box-shadow: 0 4px 12px rgba(41, 121, 255, 0.3);
+        transition: background var(--transition-fast), 
+                    box-shadow var(--transition-fast),
+                    transform var(--transition-normal);
+      }
+
+      .download-fab:hover {
+        background: linear-gradient(135deg, var(--primary-blue-hover) 0%, #1e4ad4 100%);
+        box-shadow: 0 6px 16px rgba(41, 121, 255, 0.4);
+        transform: scale(1.12);
+      }
+
+      .download-fab:active {
+        transform: scale(0.95);
+      }
+
+      .option {
+        font-size: var(--font-size-base);
+        color: var(--text-primary);
+        font-family: var(--font-family);
+      }
+
+      .option:hover {
+        background-color: var(--background-primary);
+      }
+
+      .option::selection {
+        color: var(--surface-white);
+        background-color: var(--primary-blue);
+      }
+
+      @media screen and (max-width: 860px) {
+        header {
+          height: 56px;
+          font-size: 20px;
+          animation: none;
+        }
+
+        .main-container {
+          flex-direction: column;
+        }
+
+        .input-panel {
+          width: 100%;
+          max-width: initial;
+          max-height: 50vh;
+          animation: fadeIn 0.3s ease-out;
+        }
+
+        .preview-panel {
+          width: 100%;
+          max-width: initial;
+          padding: var(--spacing-lg) 0 96px 0;
+          flex: 1;
+          animation: fadeIn 0.3s ease-out 0.1s backwards;
+        }
+
+        .preview-panel {
+          padding: var(--spacing-lg) 0 96px 0;
+          flex: 1;
+        }
+
+        canvas {
+          animation: none;
+        }
+
+        .download-fab {
+          width: 56px;
+          height: 56px;
+          animation: none;
+        }
+
+        .download-fab:hover {
+          animation: none;
+        }
+
+        .button {
+          transition: box-shadow 50ms ease, 
+                      background 50ms ease,
+                      transform 50ms ease;
+          padding: 12px 16px;
+        }
+
+        .button::before {
+          width: 0;
+          height: 0;
+        }
+
+        .button:active::before {
+          width: 200px;
+          height: 200px;
+        }
+
+        .button:hover {
+          transform: none;
+        }
+
+        .category-input {
+          transition: border-color 50ms ease,
+                      box-shadow 50ms ease,
+                      background-color 50ms ease;
+        }
+
+        .category-input:hover {
+          transform: none;
+        }
+
+        .select-container .select {
+          transition: background-color 50ms ease,
+                      color 50ms ease,
+                      transform 50ms ease;
+        }
+
+        .select-container .select:hover {
+          transform: none;
+        }
+
+        .select-container .select[selected] {
+          animation: none;
+        }
+      }
+    </style>
+    <header style="padding: 1rem">
+      <div class="title">Code @ Frost Badge Generator</div>
+    </header>
+
+    <div class="main-container">
+      <div class="input-panel">
+        <div class="input">
+          <label>Profile Picture</label>
+          <button class="button" onclick="uploadImage()">Upload Image</button>
+          <input
+            class="profile-input"
+            type="file"
+            accept="image/*"
+            onchange="upload(event)"
+            hidden
+          />
+        </div>
+        <div class="input">
+          <label>Image Shape</label>
+          <div class="select-container">
+            <div
+              class="select"
+              id="original"
+              selected
+              onclick="changeShape('original')"
+            >
+              Original
+            </div>
+            <div class="select" id="square" onclick="changeShape('square')">
+              Square
+            </div>
+          </div>
+        </div>
+        <div class="input">
+          <label>Role</label>
+          <select
+            id="role-select"
+            class="category-input"
+            onchange="updateRole()"
+          >
+            <option class="option" value="attendee" selected>Attendee</option>
+            <option class="option" value="team">Volunteer</option>
+          </select>
+        </div>
+        <div class="input">
+          <h2>🎉 Code @ Frost</h2>
+        </div>
+      </div>
+      <div class="preview-panel">
+        <canvas></canvas>
+        <div class="download-fab" onclick="download()">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24"
+            viewBox="0 0 24 24"
+            width="24"
+            fill="#fff"
+          >
+            <path d="M0 0h24v24H0V0z" fill="none" />
+            <path
+              d="M16.59 9H15V4c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1v5H7.41c-.89 0-1.34 1.08-.71 1.71l4.59 4.59c.39.39 1.02.39 1.41 0l4.59-4.59c.63-.63.19-1.71-.7-1.71zM5 19c0 .55.45 1 1 1h12c.55 0 1-.45 1-1s-.45-1-1-1H6c-.55           0-1 .45-1 1z"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+    <script>
+      const canvas = document.querySelector("canvas");
+      const ctx = canvas.getContext("2d");
+      let image = "";
+      let shape = "original";
+      let append = "";
+      let who = "attendee";
+      var banner;
+
+      const uploadImage = () => {
+        document.querySelector("input.profile-input").click();
+      };
+
+      const changeShape = (type) => {
+        const original = document.querySelector(
+          ".select-container .select#original"
+        );
+        const square = document.querySelector(
+          ".select-container .select#square"
+        );
+        shape = type;
+        switch (type) {
+          case "original": {
+            append = "";
+            original.setAttribute("selected", "");
+            square.removeAttribute("selected");
+            break;
+          }
+          case "square": {
+            append = "";
+            square.setAttribute("selected", "");
+            original.removeAttribute("selected");
+            break;
+          }
+        }
+        draw();
+      };
+
+      const upload = (e) => {
+        if (e && e.target.files && e.target.files[0]) {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            const img = new Image();
+            img.onload = () => {
+              image = img;
+              draw();
+            };
+            img.src = event.target.result;
+          };
+          reader.readAsDataURL(e.target.files[0]);
+        }
+      };
+
+      const updateRole = () => {
+        const select = document.getElementById("role-select");
+        who = select.value;
+        draw();
+      };
+
+      const draw = () => {
+        banner = new Image();
+        banner.src = "./" + who + append + ".png";
+        banner.onload = () => {
+          if (image) {
+            switch (shape) {
+              case "original": {
+                canvas.width = image.width;
+                canvas.height = image.height;
+                ctx.drawImage(image, 0, 0);
+                break;
+              }
+              default: {
+                const size = Math.min(image.width, image.height);
+                canvas.width = 500;
+                canvas.height = 500;
+                const hRatio = canvas.width / image.width;
+                const vRatio = canvas.height / image.height;
+                const ratio = Math.max(hRatio, vRatio);
+                const x = (canvas.width - image.width * ratio) / 2;
+                const y = (canvas.height - image.height * ratio) / 2;
+                ctx.drawImage(
+                  image,
+                  0,
+                  0,
+                  image.width,
+                  image.height,
+                  x,
+                  y,
+                  image.width * ratio,
+                  image.height * ratio
+                );
+                break;
+              }
+            }
+          } else {
+            ctx.canvas.width = 540;
+            ctx.canvas.height = 540;
+            ctx.fillStyle = "#0d47a1";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+          }
+
+          const height = (banner.height / banner.width) * canvas.width;
+          const y = canvas.height - height;
+          const fontSize = canvas.width / 17.2;
+          const fontY = y + height * 0.7;
+          ctx.drawImage(
+            banner,
+            0,
+            0,
+            banner.width,
+            banner.height,
+            0,
+            y,
+            canvas.width,
+            height
+          );
+
+          ctx.fillStyle = "#757575";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.font = `${fontSize}px Google Sans, sans-serif`;
+
+          if (shape === "circle") {
+            ctx.globalCompositeOperation = "destination-in";
+            ctx.beginPath();
+            ctx.arc(
+              canvas.width / 2,
+              canvas.height / 2,
+              canvas.height / 2,
+              0,
+              Math.PI * 2
+            );
+            ctx.closePath();
+            ctx.fill();
+          }
+        };
+      };
+
+      const download = () => {
+        const a = document.createElement("a");
+        const url = canvas.toDataURL("image/png");
+        a.download = "code@frost-badge.png";
+        a.href = url;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      };
+
+      draw();
+    </script>
+  </body>
+</html>
